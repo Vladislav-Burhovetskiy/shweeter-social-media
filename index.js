@@ -1,5 +1,5 @@
 import { tweetsData } from "./data.js";
-import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
+import { v4 as uuidv4 } from "https://jspm.dev/uuid";
 
 const tweetBtn = document.getElementById("tweet-btn");
 
@@ -19,6 +19,7 @@ function handleTweetBtnClick() {
       replies: [],
       isLiked: false,
       isRetweeted: false,
+      isReplied: false,
       uuid: uuidv4(),
     });
     render();
@@ -34,16 +35,15 @@ document.addEventListener("click", function (e) {
   } else if (e.target.dataset.reply) {
     handleReplyClick(e.target.dataset.reply);
   } else if (e.target.dataset.delete) {
-    handleDeleteClick(e.target.dataset.delete)
+    handleDeleteClick(e.target.dataset.delete);
   }
-
 });
 
 function handleDeleteClick(tweetId) {
   const myIndex = tweetsData.findIndex(function (tweet) {
     return tweet.uuid === tweetId;
   });
-  tweetsData.splice(myIndex, 1)
+  tweetsData.splice(myIndex, 1);
 
   render();
 }
@@ -76,8 +76,16 @@ function handleRetweetClick(tweetId) {
   render();
 }
 
-function handleReplyClick(replyId) {
-  document.getElementById(`replies-${replyId}`).classList.toggle("hidden");
+function handleReplyClick(tweetId) {
+  document.getElementById(`replies-${tweetId}`).classList.toggle("hidden");
+  
+  const targetTweetObj = tweetsData.filter(function (tweet) {
+    return tweet.uuid === tweetId;
+  })[0];
+  
+  if (targetTweetObj.replies.length > 0) {
+    document.getElementById(`reply-icon-${tweetId}`).classList.toggle("uncomment");
+  }
 }
 
 function getFeedHtml() {
@@ -114,7 +122,9 @@ function getFeedHtml() {
       });
     }
 
-    const deleteIcon = tweet.myTweet ? `<i class="fa-regular fa-trash-can" data-delete="${tweet.uuid}"></i>` : ``
+    const deleteIcon = tweet.myTweet
+      ? `<i class="fa-regular fa-trash-can" data-delete="${tweet.uuid}"></i>`
+      : ``;
 
     feedHtml += `
 <div class="tweet">
@@ -129,7 +139,7 @@ function getFeedHtml() {
             <div class="tweet-details">
                 <span class="tweet-detail">
                     <i class="fa-regular fa-comment-dots"
-                    data-reply="${tweet.uuid}"
+                    data-reply="${tweet.uuid}" id="reply-icon-${tweet.uuid}"
                     ></i>
                     ${tweet.replies.length}
                 </span>

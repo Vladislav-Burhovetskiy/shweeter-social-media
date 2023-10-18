@@ -19,11 +19,19 @@ i {
   cursor: pointer;
 }
 
-.liked {
+.liked,
+.fa-heart:hover,
+.fa-trash-can:hover {
   color: red;
 }
 
-.retweeted {
+.uncomment,
+.fa-comment-dots:hover {
+  color: #1da1f2;
+}
+
+.retweeted,
+.fa-retweet:hover {
   color: limegreen;
 }
 
@@ -36,7 +44,8 @@ header {
 }
 
 header {
-  padding-bottom: 25px;
+  margin-top: 30px;
+  margin-bottom: 35px;
 }
 
 .tweet-input-area {
@@ -48,11 +57,12 @@ header {
 /* textareas + btn */
 
 textarea {
+  font-family: "Roboto", sans-serif;
   border: none;
   resize: none;
   padding: 10px;
   margin: 0 0 20px 0;
-  height: 60px;
+  height: 65px;
   width: 100%;
   font-size: 20px;
   line-height: 30px;
