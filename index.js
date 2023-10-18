@@ -1,17 +1,23 @@
 import { tweetsData } from "./data.js";
 import { v4 as uuidv4 } from "https://jspm.dev/uuid";
+import {
+  saveDataToLocalStorage,
+  loadDataFromLocalStorage,
+} from "./helpers/localStorage.js";
 
 const tweetBtn = document.getElementById("tweet-btn");
 
 tweetBtn.addEventListener("click", handleTweetBtnClick);
+
+loadDataFromLocalStorage();
 
 function handleTweetBtnClick() {
   const tweetInput = document.getElementById("tweet-input");
 
   if (tweetInput.value) {
     tweetsData.unshift({
-      handle: `@Scrimba`,
-      profilePic: `images/scrimbalogo.png`,
+      handle: `@ZitzBattletoads`,
+      profilePic: `images/avatar.jpeg`,
       myTweet: true,
       likes: 0,
       retweets: 0,
@@ -22,6 +28,9 @@ function handleTweetBtnClick() {
       isReplied: false,
       uuid: uuidv4(),
     });
+
+    saveDataToLocalStorage();
+
     render();
     tweetInput.value = "";
   }
@@ -45,6 +54,7 @@ function handleDeleteClick(tweetId) {
   });
   tweetsData.splice(myIndex, 1);
 
+  saveDataToLocalStorage();
   render();
 }
 
@@ -59,6 +69,8 @@ function handleLikeClick(tweetId) {
     targetTweetObj.likes++;
   }
   targetTweetObj.isLiked = !targetTweetObj.isLiked;
+
+  saveDataToLocalStorage();
   render();
 }
 
@@ -73,18 +85,22 @@ function handleRetweetClick(tweetId) {
     targetTweetObj.retweets++;
   }
   targetTweetObj.isRetweeted = !targetTweetObj.isRetweeted;
+
+  saveDataToLocalStorage();
   render();
 }
 
 function handleReplyClick(tweetId) {
   document.getElementById(`replies-${tweetId}`).classList.toggle("hidden");
-  
+
   const targetTweetObj = tweetsData.filter(function (tweet) {
     return tweet.uuid === tweetId;
   })[0];
-  
+
   if (targetTweetObj.replies.length > 0) {
-    document.getElementById(`reply-icon-${tweetId}`).classList.toggle("uncomment");
+    document
+      .getElementById(`reply-icon-${tweetId}`)
+      .classList.toggle("uncomment");
   }
 }
 
