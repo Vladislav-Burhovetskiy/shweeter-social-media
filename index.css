@@ -81,7 +81,7 @@ button {
   font-weight: 600;
 }
 
-/* tweet */
+/* tweet & reply */
 
 .tweet {
   border-top: 1px solid lightgray;
@@ -115,9 +115,14 @@ button {
   width: 80%;
 }
 
-.handle-delete-container {
+.handle-delete-tweet-container,
+.handle-delete-reply-container {
   display: flex;
   justify-content: space-between;
+}
+
+.handle-delete-reply-container {
+  width: 166px;
 }
 
 .handle {
@@ -131,6 +136,27 @@ button {
   width: 207px;
   font-size: 14px;
   line-height: 20px;
+}
+
+.reply-container {
+  display: flex;
+  gap: 10px;
+}
+
+.reply-input {
+  padding-left: 10px;
+  font-size: 14px;
+  border-radius: 20px;
+  height: 30px;
+  width: 150px;
+  border: 1px solid lightgray;
+  box-shadow: 1px 1px 4px lightgray;
+}
+
+.reply-btn {
+  height: 30px;
+  font-size: 16px;
+  padding: 5px 10px;
 }
 
 /* images */
